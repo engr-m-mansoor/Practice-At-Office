@@ -8,4 +8,9 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface PlayerRepository extends JpaRepository<Player,Long>
 {
+    Player getPlayerById(Long id);
+
+    Player findPlayerByPhoneNumber(Long phoneNumber);
+
+    Player findPlayerById(Long id);
 }

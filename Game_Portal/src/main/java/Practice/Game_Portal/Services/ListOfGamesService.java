@@ -11,7 +11,13 @@ public class ListOfGamesService {
     @Autowired
     GameRepository gameRepository;
     public String getListOfGames() {
-
-        return gameRepository.findAll().toString();
+        try
+        {
+            return gameRepository.findAll().toString();
+        }
+        catch(Exception e)
+        {
+            return "No Games available";
+        }
     }
 }

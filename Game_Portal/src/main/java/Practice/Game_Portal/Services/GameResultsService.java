@@ -13,7 +13,13 @@ public class GameResultsService {
     ResultRepository resultRepository;
 
     public String getGameResultsByGameId(Long gameId) {
-
-        return resultRepository.findResultByGameId(gameId).toString();
+        try
+        {
+            return resultRepository.findResultByGameId(gameId).toString();
+        }
+        catch (Exception e)
+        {
+            return "Not Found";
+        }
     }
 }

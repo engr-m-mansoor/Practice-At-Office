@@ -1,5 +1,6 @@
 package Practice.Game_Portal.Entities;
 
+import Practice.Game_Portal.Model.ModelPlayer;
 import jakarta.persistence.*;
 import lombok.Data;
 
@@ -20,9 +21,23 @@ public class Player {
     @Column(name = "age")
     private int age;
 
-    @Column(name = "username")
+    @Column(name = "user_name")
     private String userName;
 
     @Column(name = "password")
     private String password;
+    public Player(ModelPlayer model) {
+        name=model.getName();
+        phoneNumber=model.getPhoneNumber();
+        age=model.getAge();
+        userName=model.getUserName();
+        password=model.getPassword();
+    }
+
+    public Player() {
+
+    }
+
+    public Player(String playerNotFound) {
+    }
 }
