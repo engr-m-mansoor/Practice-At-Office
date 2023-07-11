@@ -14,30 +14,53 @@ public class PlayerService {
 
     public ResponseEntity<Player> registerPlayer(ModelPlayer modelPlayer) {
         try {
-            if (playerRepository.findPlayerByPhoneNumber(modelPlayer.getPhoneNumber()) != null || playerRepository.findPlayerById(modelPlayer.getId()) != null) {
-                throw new Exception();
+            if (playerRepository.findPlayerByPhoneNumber(modelPlayer.getPhoneNumber()) != null || playerRepository.findPlayerById(modelPlayer.getId()) != null || playerRepository.findPlayerByUserName(modelPlayer.getUserName())!= null) {
+                return ResponseEntity.badRequest().build();
             } else {
                 Player player = new Player(modelPlayer);
                 playerRepository.save(player);
-                return ResponseEntity.ok(player);
-            }
-        } catch (Exception e) {
-            return ResponseEntity.badRequest().body(null);
-        }
-    }
-
-    public ResponseEntity<Player> getPlayerProfile(ModelPlayer  modelPlayer) {
-        try {
-            if (playerRepository.getPlayerById(modelPlayer.getId()) != null) {
-                Player player = new Player();
-                player=playerRepository.getPlayerById(modelPlayer.getId());
-                return ResponseEntity.ok(player);
-            } else {
-                return ResponseEntity.status(HttpStatus.NOT_FOUND)
-                        .body(new Player("Player not found")); // Create a custom Player object with the error message
+                return ResponseEntity.ok().build();
             }
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
     }
+
+    public ResponseEntity<Player> getPlayerProfile(ModelPlayer  modelPlayer) {
+        try {
+            if (playerRepository.getPlayerById(modelPlayer.getId()) != null ) {
+                Player player = new Player();
+                player=playerRepository.getPlayerById(modelPlayer.getId());
+                return ResponseEntity.status(HttpStatus.OK).body(player);
+            } else {
+                return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                        .body(null);
+            }
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
+    }
+
+    public ResponseEntity<Player> updatePlayer(ModelPlayer modelPlayer) {
+        try {
+            if (playerRepository.findPlayerByPhoneNumber(modelPlayer.getPhoneNumber()) == null || playerRepository.findPlayerById(modelPlayer.getId()) == null) {
+                return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                        .body(null);
+            } else {
+                Player player = new Player();
+                player=playerRepository.getPlayerById(modelPlayer.getId());
+                player.setName(modelPlayer.getName());
+                player.setAge(modelPlayer.getAge());
+                player.setPhoneNumber(modelPlayer.getPhoneNumber());
+                player.setUserName(modelPlayer.getUserName());
+                player.setPassword(modelPlayer.getPassword());
+                playerRepository.save(player);
+                return ResponseEntity.ok().build();
+            }
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
+    }
+
+
 }

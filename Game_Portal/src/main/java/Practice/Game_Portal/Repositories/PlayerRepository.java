@@ -13,4 +13,6 @@ public interface PlayerRepository extends JpaRepository<Player,Long>
     Player findPlayerByPhoneNumber(Long phoneNumber);
 
     Player findPlayerById(Long id);
+
+    Player findPlayerByUserName(String userName);
 }

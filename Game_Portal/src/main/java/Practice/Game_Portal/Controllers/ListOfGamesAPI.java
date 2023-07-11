@@ -1,7 +1,7 @@
 //package Practice.Game_Portal.Controllers;
 //
 //import Practice.Game_Portal.Entities.Game;
-//import Practice.Game_Portal.Services.ListOfGamesService;
+//import Practice.Game_Portal.Services.GameService;
 //import org.springframework.beans.factory.annotation.Autowired;
 //import org.springframework.web.bind.annotation.GetMapping;
 //import org.springframework.web.bind.annotation.RequestMapping;
@@ -12,7 +12,7 @@
 //public class ListOfGamesAPI {
 //
 //    @Autowired
-//    ListOfGamesService listOfGamesService;
+//    GameService listOfGamesService;
 //
 //    @GetMapping(path="/games")
 //    public String getListOfGames() {

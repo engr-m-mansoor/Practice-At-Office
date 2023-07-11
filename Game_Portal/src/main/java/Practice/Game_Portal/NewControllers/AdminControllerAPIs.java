@@ -1,27 +1,45 @@
-//package Practice.Game_Portal.NewControllers;
-//
-//import Practice.Game_Portal.Entities.Player;
-//import Practice.Game_Portal.Model.ModelPlayer;
-//import Practice.Game_Portal.Services.PlayerService;
-//import org.springframework.http.HttpStatus;
-//import org.springframework.http.ResponseEntity;
-//import org.springframework.web.bind.annotation.GetMapping;
-//import org.springframework.web.bind.annotation.RequestBody;
-//import org.springframework.web.bind.annotation.RequestMapping;
-//import org.springframework.web.bind.annotation.RestController;
-//
-//@RestController
-//@RequestMapping(path="/api/v1/admin")
-//public class AdminControllerAPIs {
-//
-//    @GetMapping(path="/profile")
-//    public ResponseEntity<Player> getPlayerProfileById(@RequestBody ModelPlayer modelPlayer) {
-//        PlayerService playerService;
-//        ResponseEntity<Player> response = playerService.getPlayerProfile(modelPlayer.getId());
-//        if (response.getStatusCode() == HttpStatus.OK) {
-//            return ResponseEntity.ok(response.getBody());
-//        } else {
-//            return ResponseEntity.noContent().build();
-//        }
-//    }
-//}
+package Practice.Game_Portal.NewControllers;
+
+import Practice.Game_Portal.Entities.Player;
+import Practice.Game_Portal.Model.ModelPlayer;
+import Practice.Game_Portal.Services.AdminService;
+import Practice.Game_Portal.Services.PlayerService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+import java.util.List;
+
+@RestController
+@RequestMapping(path="/api/v1/admin")
+public class AdminControllerAPIs {
+@Autowired
+AdminService adminService;
+
+    //5. localhost:8080/api/v1/admin/profiles [GET]
+    @GetMapping(path="/profiles")
+    public ResponseEntity<List<Player>> getAllProfiles() {
+        ResponseEntity<List<Player>> response = adminService.getAllProfiles();
+        if (response.getStatusCode() == HttpStatus.OK) {
+            return ResponseEntity.status(HttpStatus.OK).body(response.getBody());
+        } else if (response.getStatusCode() == HttpStatus.NOT_FOUND) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
+        } else {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
+    }
+
+    //6. localhost:8080/api/v1/admin/profiles/{playerId} [PUT]
+    @PutMapping(path = "/profiles/{playerid}")
+    public ResponseEntity<String> updatePlayer(@PathVariable("playerid") Long playerId, @RequestBody ModelPlayer modelPlayer) {
+        ResponseEntity<Player> response = adminService.updatePlayerById(playerId, modelPlayer);
+        if (response.getStatusCode() == HttpStatus.OK) {
+            return ResponseEntity.ok("Player successfully updated");
+        } else if (response.getStatusCode() == HttpStatus.NOT_FOUND) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body("Player not found");
+        } else {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
+    }
+}

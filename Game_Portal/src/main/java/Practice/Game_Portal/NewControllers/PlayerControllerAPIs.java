@@ -14,6 +14,7 @@ public class PlayerControllerAPIs {
     @Autowired
     PlayerService playerService;
 
+    // 1. localhost:8080/api/v1/register [POST]
     @PostMapping(path = "/register")
     public ResponseEntity<String> registerPlayer(@RequestBody ModelPlayer modelPlayer) {
         ResponseEntity<Player> response = playerService.registerPlayer(modelPlayer);
@@ -23,32 +24,36 @@ public class PlayerControllerAPIs {
             return ResponseEntity.badRequest().body("User Already Exists");
         }
     }
-    @GetMapping(path="/profile")
+    // 3. localhost:8080/api/v1/profile [GET]
+    @GetMapping(path = "/profile")
     public ResponseEntity<Player> getPlayerProfileById(@RequestBody ModelPlayer modelPlayer) {
         ResponseEntity<Player> response = playerService.getPlayerProfile(modelPlayer);
         if (response.getStatusCode() == HttpStatus.OK) {
-            return ResponseEntity.ok(response.getBody());
+            return ResponseEntity.status(HttpStatus.OK).body(response.getBody());
         } else if (response.getStatusCode() == HttpStatus.NOT_FOUND) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND)
-                    .body(new Player("Player not found"));
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
         } else {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
     }
-//    @PutMapping(path = "/profile")
-//    public String updatePlayer(@RequestBody ModelPlayer modelPlayer) {
-//        return playerService.updatePlayer(modelPlayer);
-//    }
+
+//  4. localhost:8080/api/v1/profile [PUT]
+    @PutMapping(path = "/profile")
+    public ResponseEntity<String> updatePlayer(@RequestBody ModelPlayer modelPlayer) {
+        ResponseEntity<Player> response = playerService.updatePlayer(modelPlayer);
+        if (response.getStatusCode() == HttpStatus.OK) {
+            return ResponseEntity.ok("Player successfully updated");
+        } else if (response.getStatusCode() == HttpStatus.NOT_FOUND) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body("Player not found");
+        } else {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
+    }
 //
-//    @GetMapping(path="/games")
-//    public ResponseEntity<Player> getPlayerGames(@RequestBody ModelPlayer modelPlayer) {
-//        ResponseEntity<Player> response = playerService.getPlayerProfile(modelPlayer.getId());
-//        if (response.getStatusCode() == HttpStatus.OK) {
-//            return ResponseEntity.ok(response.getBody());
-//        } else {
-//            return ResponseEntity.noContent().build();
-//        }
-//    }
+
+
+
 //
 //    @PostMapping(path="/games{gameId}")
 //    public ResponseEntity<Player> joinAGame(@RequestBody ModelPlayer modelPlayer) {

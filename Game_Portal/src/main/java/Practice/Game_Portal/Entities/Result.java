@@ -14,7 +14,7 @@ public class Result {
     @Column(name = "game_id")
     private Long gameId;
 
-    @Column(name = "wiiner_id")
+    @Column(name = "winner_id")
     private Long winnerId;
 
     @Column(name = "looser_id")
