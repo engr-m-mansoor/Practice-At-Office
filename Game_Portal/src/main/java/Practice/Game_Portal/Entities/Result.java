@@ -13,6 +13,12 @@ public class Result {
 
     @Column(name = "game_id")
     private Long gameId;
+    @ManyToOne
+    private Player player;
+
+    @ManyToOne
+    private Game game;
+
 
     @Column(name = "winner_id")
     private Long winnerId;

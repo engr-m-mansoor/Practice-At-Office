@@ -9,4 +9,6 @@ public interface GameRepository extends JpaRepository<Game,Long> {
     Game findGameByName(String name);
 
     Game findGameById(Long gameId);
+
+
 }

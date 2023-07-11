@@ -48,7 +48,7 @@ public ResponseEntity<List<Game>> getAllGames() {
      }
          public ResponseEntity<Game> updateGame(Long gameId, ModelGame modelGame) {
             try {
-                if (gameRepository.findById(gameId) != null) {
+                if (gameRepository.findById(gameId) == null) {
                     return ResponseEntity.status(HttpStatus.NOT_FOUND)
                             .body(null);
                 } else {

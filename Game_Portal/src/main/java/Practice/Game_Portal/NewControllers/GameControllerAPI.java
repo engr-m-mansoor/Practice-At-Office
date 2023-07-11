@@ -2,9 +2,11 @@ package Practice.Game_Portal.NewControllers;
 
 import Practice.Game_Portal.Entities.Game;
 import Practice.Game_Portal.Entities.Player;
+import Practice.Game_Portal.Entities.Result;
 import Practice.Game_Portal.Model.ModelGame;
 import Practice.Game_Portal.Model.ModelPlayer;
 import Practice.Game_Portal.Services.GameService;
+import Practice.Game_Portal.Services.ResultService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -18,6 +20,10 @@ public class GameControllerAPI {
 
     @Autowired
     GameService gameService;
+    @Autowired
+    ResultService resultService;
+
+    //7. localhost:8080/api/v1/games [GET]
     @GetMapping(path="/games")
     public ResponseEntity<List<Game>> getAllProfiles() {
         ResponseEntity<List<Game>> response = gameService.getAllGames();
@@ -48,7 +54,7 @@ public class GameControllerAPI {
     public ResponseEntity<String> updateGame(@PathVariable Long gameId, @RequestBody ModelGame modelGame) {
         ResponseEntity<Game> response = gameService.updateGame(gameId,modelGame);
         if (response.getStatusCode() == HttpStatus.OK) {
-            return ResponseEntity.ok("Game successfully updated");
+            return ResponseEntity.status(HttpStatus.OK).body("Game successfully updated");
         } else if (response.getStatusCode() == HttpStatus.NOT_FOUND) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND)
                     .body("Game not found");
@@ -70,4 +76,34 @@ public class GameControllerAPI {
         }
     }
 
+    //12. localhost:8080/api/v1/games/{gameId}/results [GET]
+    @GetMapping(path="games/{gameId}/results ")
+
+    public ResponseEntity<Result> getPlayerResults(@PathVariable Long gameId, @RequestBody ModelPlayer modelPlayer) {
+
+        ResponseEntity<Result> response = resultService.getPlayerResults(gameId,modelPlayer);
+        if (response.getStatusCode() == HttpStatus.OK) {
+            return ResponseEntity.status(HttpStatus.OK).body(response.getBody());
+        } else if (response.getStatusCode() == HttpStatus.NOT_FOUND) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .build();
+        } else {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
+    }
+
+
+//    //13. localhost:8080/api/v1/admin/games/{gameId}/results [GET]
+//    @PutMapping(path="/admin/games/{gameId}/results ")
+//    public ResponseEntity<String> updateGame(@PathVariable Long gameId) {
+//        ResponseEntity<Game> response = gameService.updateGame(gameId,modelGame);
+//        if (response.getStatusCode() == HttpStatus.OK) {
+//            return ResponseEntity.status(HttpStatus.OK).body("Game successfully updated");
+//        } else if (response.getStatusCode() == HttpStatus.NOT_FOUND) {
+//            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+//                    .body("Game not found");
+//        } else {
+//            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+//        }
+//    }
 }
