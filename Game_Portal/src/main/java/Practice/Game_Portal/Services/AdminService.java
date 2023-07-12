@@ -31,7 +31,7 @@ public class AdminService {
     public  ResponseEntity<Player> updatePlayerById(Long playerId, ModelPlayer modelPlayer) {
             try {
                 if (playerRepository.findPlayerById(playerId) == null) {
-                    return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    return ResponseEntity.status(HttpStatus.NO_CONTENT)
                             .body(null);
                 } else {
                     Player player = new Player();

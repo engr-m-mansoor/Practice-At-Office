@@ -28,7 +28,18 @@ public class ResultService {
         }
         else if (gameRepository.findById(gameId)==null)
         {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+            return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+        }
+        else
+        {
+            return ResponseEntity.status(HttpStatus.OK).body(resultRepository.findResultByGameId(gameId));
+        }
+    }
+
+    public ResponseEntity<Result> getGameResults(Long gameId) {
+        if (gameRepository.findById(gameId)==null)
+        {
+            return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
         }
         else
         {

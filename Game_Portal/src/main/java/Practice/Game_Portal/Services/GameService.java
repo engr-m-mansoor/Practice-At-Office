@@ -22,11 +22,12 @@ public class GameService {
 
 public ResponseEntity<List<Game>> getAllGames() {
             try {
-                if (playerRepository.findAll() == null) {
-                    return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+                if (gameRepository.count() == 0) {
+                    return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
                 } else {
                     List<Game> allGames= gameRepository.findAll();
                     return ResponseEntity.status(HttpStatus.OK).body(allGames);
+
                 }
             } catch (Exception e) {
                 return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
@@ -66,13 +67,13 @@ public ResponseEntity<List<Game>> getAllGames() {
     public ResponseEntity<Game> deleteGame(Long gameId) {
         try {
             if (gameRepository.findById(gameId) == null) {
-                return ResponseEntity.status(HttpStatus.NOT_FOUND)
-                        .body(null);
+                return ResponseEntity.status(HttpStatus.NO_CONTENT)
+                        .build();
             } else {
                 Game game = new Game();
                 game=gameRepository.findGameById(gameId);
                 gameRepository.delete(game);
-                return ResponseEntity.ok().build();
+                return ResponseEntity.status(HttpStatus.OK).build();
             }
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();

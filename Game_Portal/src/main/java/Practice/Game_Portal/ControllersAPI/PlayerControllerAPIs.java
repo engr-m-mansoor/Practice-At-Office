@@ -1,4 +1,4 @@
-package Practice.Game_Portal.NewControllers;
+package Practice.Game_Portal.ControllersAPI;
 
 import Practice.Game_Portal.Entities.Player;
 import Practice.Game_Portal.Model.ModelPlayer;
@@ -30,8 +30,8 @@ public class PlayerControllerAPIs {
         ResponseEntity<Player> response = playerService.getPlayerProfile(modelPlayer);
         if (response.getStatusCode() == HttpStatus.OK) {
             return ResponseEntity.status(HttpStatus.OK).body(response.getBody());
-        } else if (response.getStatusCode() == HttpStatus.NOT_FOUND) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
+        } else if (response.getStatusCode() == HttpStatus.NO_CONTENT) {
+            return ResponseEntity.status(HttpStatus.NO_CONTENT).body(null);
         } else {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
@@ -50,28 +50,4 @@ public class PlayerControllerAPIs {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
     }
-//
-
-
-
-//
-//    @PostMapping(path="/games{gameId}")
-//    public ResponseEntity<Player> joinAGame(@RequestBody ModelPlayer modelPlayer) {
-//        ResponseEntity<Player> response = playerService.getPlayerProfile(modelPlayer.getId());
-//        if (response.getStatusCode() == HttpStatus.OK) {
-//            return ResponseEntity.ok(response.getBody());
-//        } else {
-//            return ResponseEntity.noContent().build();
-//        }
-//    }
-//    @GetMapping(path="/games{gameId}/result")
-//    public ResponseEntity<Player> joinAGame(@RequestBody ModelPlayer modelPlayer) {
-//        ResponseEntity<Player> response = playerService.getPlayerProfile(modelPlayer.getId());
-//        if (response.getStatusCode() == HttpStatus.OK) {
-//            return ResponseEntity.ok(response.getBody());
-//        } else {
-//            return ResponseEntity.noContent().build();
-//        }
-//    }
-//
 }

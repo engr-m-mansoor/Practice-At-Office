@@ -7,18 +7,15 @@ import lombok.Data;
 @Data
 public class Result {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id")
     private Long id;
 
-    @Column(name = "game_id")
-    private Long gameId;
     @ManyToOne
     private Player player;
 
     @ManyToOne
     private Game game;
-
 
     @Column(name = "winner_id")
     private Long winnerId;

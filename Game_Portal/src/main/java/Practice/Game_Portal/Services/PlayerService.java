@@ -33,7 +33,7 @@ public class PlayerService {
                 player=playerRepository.getPlayerById(modelPlayer.getId());
                 return ResponseEntity.status(HttpStatus.OK).body(player);
             } else {
-                return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                return ResponseEntity.status(HttpStatus.NO_CONTENT)
                         .body(null);
             }
         } catch (Exception e) {

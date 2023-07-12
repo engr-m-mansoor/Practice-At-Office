@@ -1,13 +1,13 @@
-package Practice.Game_Portal.NewControllers;
+package Practice.Game_Portal.ControllersAPI;
 
 import Practice.Game_Portal.Entities.Player;
 import Practice.Game_Portal.Model.ModelPlayer;
 import Practice.Game_Portal.Services.AdminService;
-import Practice.Game_Portal.Services.PlayerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
 import java.util.List;
 
 @RestController
@@ -34,9 +34,9 @@ AdminService adminService;
     public ResponseEntity<String> updatePlayer(@PathVariable("playerid") Long playerId, @RequestBody ModelPlayer modelPlayer) {
         ResponseEntity<Player> response = adminService.updatePlayerById(playerId, modelPlayer);
         if (response.getStatusCode() == HttpStatus.OK) {
-            return ResponseEntity.ok("Player successfully updated");
-        } else if (response.getStatusCode() == HttpStatus.NOT_FOUND) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+            return ResponseEntity.status(HttpStatus.OK).body("Player successfully updated");
+        } else if (response.getStatusCode() == HttpStatus.NO_CONTENT) {
+            return ResponseEntity.status(HttpStatus.NO_CONTENT)
                     .body("Player not found");
         } else {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
