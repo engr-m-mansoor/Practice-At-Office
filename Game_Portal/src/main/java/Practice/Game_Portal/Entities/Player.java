@@ -3,10 +3,13 @@ package Practice.Game_Portal.Entities;
 import Practice.Game_Portal.Model.ModelPlayer;
 import jakarta.persistence.*;
 import lombok.Data;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 @Entity
 @Data
 public class Player {
+
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "player_id")
@@ -26,12 +29,13 @@ public class Player {
 
     @Column(name = "password")
     private String password;
-    public Player(ModelPlayer model) {
+    public Player(ModelPlayer model,String encodedPassword) {
         name=model.getName();
         phoneNumber=model.getPhoneNumber();
         age=model.getAge();
         userName=model.getUserName();
-        password=model.getPassword();
+
+        password=encodedPassword;
     }
 
     public Player() {

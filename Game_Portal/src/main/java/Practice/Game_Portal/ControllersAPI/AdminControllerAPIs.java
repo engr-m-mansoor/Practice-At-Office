@@ -6,6 +6,7 @@ import Practice.Game_Portal.Services.AdminService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -28,6 +29,7 @@ AdminService adminService;
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
     }
+
 
     //6. localhost:8080/api/v1/admin/profiles/{playerId} [PUT]
     @PutMapping(path = "/profiles/{playerid}")

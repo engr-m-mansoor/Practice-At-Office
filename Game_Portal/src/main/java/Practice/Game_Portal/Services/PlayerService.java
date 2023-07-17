@@ -6,9 +6,12 @@ import Practice.Game_Portal.Repositories.PlayerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 @Service
 public class PlayerService {
+    @Autowired
+    private PasswordEncoder passwordEncoder;
     @Autowired
     PlayerRepository playerRepository;
 
@@ -17,7 +20,8 @@ public class PlayerService {
             if (playerRepository.findPlayerByPhoneNumber(modelPlayer.getPhoneNumber()) != null || playerRepository.findPlayerById(modelPlayer.getId()) != null || playerRepository.findPlayerByUserName(modelPlayer.getUserName())!= null) {
                 return ResponseEntity.badRequest().build();
             } else {
-                Player player = new Player(modelPlayer);
+                String encodedPassword = passwordEncoder.encode(modelPlayer.getPassword());
+                Player player = new Player(modelPlayer,encodedPassword);
                 playerRepository.save(player);
                 return ResponseEntity.ok().build();
             }
