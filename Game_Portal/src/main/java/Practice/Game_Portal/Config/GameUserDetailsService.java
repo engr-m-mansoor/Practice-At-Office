@@ -15,7 +15,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Service
-public class GameUserDetails implements UserDetailsService {
+public class GameUserDetailsService implements UserDetailsService {
 
     @Autowired
     private PlayerRepository playerRepository;

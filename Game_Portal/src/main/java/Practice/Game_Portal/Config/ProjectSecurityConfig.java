@@ -35,8 +35,11 @@ public class ProjectSecurityConfig {
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
+    @Bean
+    public GameUserDetailsService gameUserDetailsService() {
+    return new GameUserDetailsService();
     }
-
+}
 
 
 
